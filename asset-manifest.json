@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/jenniekibiri/Restaurant-review-redux/static/css/main.0dad5210.css",
+    "main.js": "/jenniekibiri/Restaurant-review-redux/static/js/main.4baa51a1.js",
+    "static/js/787.cfe46d04.chunk.js": "/jenniekibiri/Restaurant-review-redux/static/js/787.cfe46d04.chunk.js",
+    "index.html": "/jenniekibiri/Restaurant-review-redux/index.html",
+    "main.0dad5210.css.map": "/jenniekibiri/Restaurant-review-redux/static/css/main.0dad5210.css.map",
+    "main.4baa51a1.js.map": "/jenniekibiri/Restaurant-review-redux/static/js/main.4baa51a1.js.map",
+    "787.cfe46d04.chunk.js.map": "/jenniekibiri/Restaurant-review-redux/static/js/787.cfe46d04.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0dad5210.css",
+    "static/js/main.4baa51a1.js"
+  ]
+}
