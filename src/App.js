@@ -9,24 +9,20 @@ import CustomData from "./components/CustomData";
 import Filter from "./components/Filter";
 import places from "./places.json";
 import { connect } from "react-redux";
-import {  setRatingChanged,setRequestPlaces } from "./actions/action";
+import { setRatingChanged, setRequestPlaces } from "./actions/action";
 
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 const mapStateToProps = (state) => {
   return {
-
     minRating: state.ratingChanged.minRating,
     ratingClicked: state.ratingChanged.ratingClicked,
-    dataLoaded:state.requestPlaces.dataLoaded,
-    ratings:state.requestPlaces.ratings,
-
-
+    dataLoaded: state.requestPlaces.dataLoaded,
+    ratings: state.requestPlaces.ratings,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-   
-    ratingChanged: (minRating, ratingClicked=true) =>
+    ratingChanged: (minRating, ratingClicked = true) =>
       dispatch(setRatingChanged(minRating, ratingClicked)),
     onRequestPlaces: (placeid) => dispatch(setRequestPlaces(placeid)),
   };
@@ -64,7 +60,6 @@ class App extends Component {
       minRating: "",
     });
   }
-
 
   handlePlaces(places) {
     this.setState({
@@ -123,8 +118,7 @@ class App extends Component {
           isLoaded: true,
           place: data.results,
         });
-      }
-      )
+      })
       .catch((err) => console.log(err));
 
     this.setState({
@@ -141,8 +135,7 @@ class App extends Component {
 
   //handle submit
   handleSubmit = (e) => {
-    const { author_name, text, rating, places, restaurantId } =
-      this.state;
+    const { author_name, text, rating, places, restaurantId } = this.state;
 
     //add new reviews to hardcoded restaurants
     places.map((place) => {
@@ -252,8 +245,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoaded, place, places, ratings } =
-      this.state;
+    const { isLoaded, place, places, ratings } = this.state;
 
     const filteredCoded = [];
     let filterGRestaurants = [];
@@ -263,7 +255,7 @@ class App extends Component {
         filterGRestaurants = ratings;
       }
 
-   this.props.ratings.forEach((rating) => {
+      this.props.ratings.forEach((rating) => {
         console.log(this.props.minRating);
         if (rating.rating == this.props.minRating) {
           return filterGRestaurants.push(rating);

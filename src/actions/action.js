@@ -3,8 +3,8 @@ import {
   REQUEST_PLACES_FAILED,
   REQUEST_PLACES_PENDING,
   REQUEST_PLACES_SUCCESS,
+  CLEAR_FILTER,
 } from "./actionTypes";
-
 
 export const setRatingChanged = (minRating, ratingClicked) => ({
   type: CHANGE_RATING,
@@ -28,6 +28,15 @@ export const setRequestPlaces = () => (dispatch, placeid) => {
     }
   )
     .then((response) => response.json())
-    .then((ratings) => dispatch({ type: REQUEST_PLACES_SUCCESS, payload: ratings }))
+    .then((ratings) =>
+      dispatch({ type: REQUEST_PLACES_SUCCESS, payload: ratings })
+    )
     .catch((err) => dispatch({ type: REQUEST_PLACES_FAILED, payload: err }));
 };
+const setClearFilter = (minRating, ratingClicked) => ({
+  type: CLEAR_FILTER,
+  payload: {
+    minRating,
+    ratingClicked,
+  },
+});

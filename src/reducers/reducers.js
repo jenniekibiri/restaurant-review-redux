@@ -4,6 +4,7 @@ import {
   REQUEST_PLACES_FAILED,
   REQUEST_PLACES_PENDING,
   REQUEST_PLACES_SUCCESS,
+  CLEAR_FILTER,
 } from "../actions/actionTypes";
 const intialState = {
   setSearch: "",
@@ -60,5 +61,17 @@ export const requestPlaces = (state = intialState, action) => {
       };
     default:
       return state;
+  }
+};
+export const clearFilter = (state = intialStateRating, action) => {
+  switch (action.type) {
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        minRating: 0,
+        ratingClicked: false,
+      };
+    default:
+      return intialStateRating;
   }
 };
