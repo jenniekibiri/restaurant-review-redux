@@ -5,6 +5,7 @@ import {
   REQUEST_PLACES_PENDING,
   REQUEST_PLACES_SUCCESS,
   CLEAR_FILTER,
+  
 } from "../actions/actionTypes";
 const intialState = {
   

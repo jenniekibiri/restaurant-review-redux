@@ -22,8 +22,8 @@ export const setClearFilter = (minRating, ratingClicked) => ({
 });
 
 
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
 export const setRequestPlaces = () => (dispatch, placeid) => {
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
   dispatch({ type: REQUEST_PLACES_PENDING });
   fetch(
     proxyurl +
@@ -42,4 +42,3 @@ export const setRequestPlaces = () => (dispatch, placeid) => {
     )
     .catch((err) => dispatch({ type: REQUEST_PLACES_FAILED, payload: err }));
 };
-

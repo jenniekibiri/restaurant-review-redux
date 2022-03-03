@@ -29,8 +29,9 @@ const mapDispatchToProps = (dispatch) => {
     ratingChanged: (minRating, ratingClicked = true) =>
       dispatch(setRatingChanged(minRating, ratingClicked)),
     onRequestPlaces: (placeid) => dispatch(setRequestPlaces(placeid)),
-    clearFilter:(minRating=0,ratingClicked=false)=>dispatch(setClearFilter(minRating,ratingClicked)),
-  }
+    clearFilter: (minRating = 0, ratingClicked = false) =>
+      dispatch(setClearFilter(minRating, ratingClicked)),
+  };
 };
 
 class App extends Component {
@@ -44,12 +45,9 @@ class App extends Component {
       loaded: false,
       currentPosition: {},
       isLoaded: false,
-      dataLoaded: false,
-      rating: 1,
+
       text: "",
       restaurantId: 0,
-      minRating: 1,
-      ratingClicked: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -178,7 +176,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-      navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
         currentPosition: {
           lat: position.coords.latitude,
