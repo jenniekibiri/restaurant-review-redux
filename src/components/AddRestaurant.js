@@ -1,8 +1,6 @@
 import React, { Component } from "react";
  class AddRestaurant extends Component {
-  ratingChanged = (newRating) => {};
-
-  render() {
+   render() {
     return (
       <>
         <form onSubmit={this.props.handleSubmit} className=" mt-2">

@@ -3,13 +3,36 @@ import { Element } from "react-scroll";
 import MapContainer from "./components/MapContainer";
 import Navbar from "./components/Navbar";
 import "./css/style.css";
+
 import GoogleApiCard from "./components/GoogleApiCard";
 import CustomData from "./components/CustomData";
 import Filter from "./components/Filter";
-import places from "./places.json"
+import places from "./places.json";
+import { connect } from "react-redux";
+import {  setRatingChanged,setRequestPlaces } from "./actions/action";
 
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
- class App extends Component {
+const mapStateToProps = (state) => {
+  return {
+
+    minRating: state.ratingChanged.minRating,
+    ratingClicked: state.ratingChanged.ratingClicked,
+    dataLoaded:state.requestPlaces.dataLoaded,
+    ratings:state.requestPlaces.ratings,
+
+
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+   
+    ratingChanged: (minRating, ratingClicked=true) =>
+      dispatch(setRatingChanged(minRating, ratingClicked)),
+    onRequestPlaces: (placeid) => dispatch(setRequestPlaces(placeid)),
+  };
+};
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +54,6 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getRestaurantId = this.getRestaurantId.bind(this);
-    this.ratingChanged = this.ratingChanged.bind(this);
     this.handlePlaces = this.handlePlaces.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.clearFilter = this.clearFilter.bind(this);
@@ -42,12 +64,7 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
       minRating: "",
     });
   }
-  ratingChanged = (newRating) => {
-    this.setState({
-      minRating: newRating,
-      ratingClicked: true,
-    });
-  };
+
 
   handlePlaces(places) {
     this.setState({
@@ -77,35 +94,37 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
         results.map((result) => {
           let placeid = result.place_id;
-          fetch(
-            proxyurl +
-              `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeid}&fields=name,rating,photo,vicinity,place_id,reviews,formatted_phone_number&key=${process.env.REACT_APP_GoogleMapsApiKey}`,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:3000",
-              },
-            }
-          )
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              let { ratings } = this.state;
-              ratings.push(data.result);
-              this.setState({
-                ratings,
-                dataLoaded: true,
-              });
-            });
+          this.props.setRequestPlaces(placeid);
+          // fetch(
+          //   proxyurl +
+          //     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeid}&fields=name,rating,photo,vicinity,place_id,reviews,formatted_phone_number&key=${process.env.REACT_APP_GoogleMapsApiKey}`,
+          //   {
+          //     method: "GET",
+          //     headers: {
+          //       Accept: "application/json",
+          //       "Access-Control-Allow-Origin": "http://localhost:3000",
+          //     },
+          //   }
+          // )
+          //   .then((response) => {
+          //     return response.json();
+          //   })
+          //   .then((data) => {
+          //     let { ratings } = this.state;
+          //     ratings.push(data.result);
+          //     this.setState({
+          //       ratings,
+          //       dataLoaded: true,
+          //     });
+          //   });
         });
 
         this.setState({
           isLoaded: true,
           place: data.results,
         });
-      })
+      }
+      )
       .catch((err) => console.log(err));
 
     this.setState({
@@ -122,14 +141,8 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
   //handle submit
   handleSubmit = (e) => {
-    const {
-      author_name,
-      text,
-      rating,
-      places,
-      restaurantId,
-      ratings,
-    } = this.state;
+    const { author_name, text, rating, places, restaurantId } =
+      this.state;
 
     //add new reviews to hardcoded restaurants
     places.map((place) => {
@@ -140,7 +153,7 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
     });
 
     //add new reviews to google api restaurants
-    ratings.map((r) => {
+    this.props.ratings.map((r) => {
       if (restaurantId == r.place_id) {
         if (r.reviews !== undefined) {
           r.reviews.push({ author_name, rating, text });
@@ -174,7 +187,7 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
   }
 
   async componentDidMount() {
-
+    console.log(this.props);
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
         currentPosition: {
@@ -183,8 +196,8 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
         },
         loaded: true,
       });
-      if (this.state.loaded ) {
-             fetch(
+      if (this.state.loaded) {
+        fetch(
           proxyurl +
             `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.currentPosition.lat},${this.state.currentPosition.lng}&radius=1000&type=restaurant&key=${process.env.REACT_APP_GoogleMapsApiKey}`,
 
@@ -239,35 +252,30 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
   }
 
   render() {
-    const {
-      isLoaded,
-      place,
-      places,
-      minRating,
-      ratings,
-      ratingClicked,
-    } = this.state;
+    const { isLoaded, place, places, ratings } =
+      this.state;
 
     const filteredCoded = [];
     let filterGRestaurants = [];
 
     if (isLoaded === true) {
-      if (ratingClicked == false) {
+      if (this.props.ratingClicked == false) {
         filterGRestaurants = ratings;
       }
 
-      ratings.forEach((rating) => {
-        if (rating.rating == minRating) {
+   this.props.ratings.forEach((rating) => {
+        console.log(this.props.minRating);
+        if (rating.rating == this.props.minRating) {
           return filterGRestaurants.push(rating);
         }
       });
     }
 
     places.forEach((p) => {
-      if (ratingClicked === false) {
+      if (this.props.ratingClicked === false) {
         filteredCoded.push(p);
       }
-      if (p.rating == minRating) {
+      if (p.rating == this.props.minRating) {
         filteredCoded.push(p);
       }
     });
@@ -289,8 +297,8 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
           <div className="col-md-4  col-lg-4  cards  np-element ">
             <div className="row  ">
               <Filter
-                ratingClicked={ratingClicked}
-                ratingChanged={this.ratingChanged}
+                ratingClicked={this.props.ratingClicked}
+                ratingChanged={this.props.ratingChanged}
                 clearFilter={this.clearFilter}
               />
             </div>
@@ -364,4 +372,4 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

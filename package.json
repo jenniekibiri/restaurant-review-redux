@@ -1,7 +1,6 @@
 {
   "name": "restaurant-review-redux",
   "version": "0.1.0",
-  "homepage": "https://jenniekibiri.github.io/restaurant-review-redux",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
@@ -13,10 +12,14 @@
     "react-avatar": "^4.0.0",
     "react-dom": "^16.13.1",
     "react-rating-stars-component": "^2.2.0",
+    "react-redux": "^7.2.6",
     "react-scripts": "5.0.0",
     "react-scroll": "^1.8.5",
     "react-star-ratings": "^2.3.0",
     "react-uuid": "^1.0.2",
+    "redux": "^4.1.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
