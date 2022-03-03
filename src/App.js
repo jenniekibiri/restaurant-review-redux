@@ -9,7 +9,11 @@ import CustomData from "./components/CustomData";
 import Filter from "./components/Filter";
 import places from "./places.json";
 import { connect } from "react-redux";
-import { setRatingChanged, setRequestPlaces } from "./actions/action";
+import {
+  setRatingChanged,
+  setRequestPlaces,
+  setClearFilter,
+} from "./actions/action";
 
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 const mapStateToProps = (state) => {
@@ -25,7 +29,8 @@ const mapDispatchToProps = (dispatch) => {
     ratingChanged: (minRating, ratingClicked = true) =>
       dispatch(setRatingChanged(minRating, ratingClicked)),
     onRequestPlaces: (placeid) => dispatch(setRequestPlaces(placeid)),
-  };
+    clearFilter:(minRating=0,ratingClicked=false)=>dispatch(setClearFilter(minRating,ratingClicked)),
+  }
 };
 
 class App extends Component {
@@ -52,13 +57,6 @@ class App extends Component {
     this.getRestaurantId = this.getRestaurantId.bind(this);
     this.handlePlaces = this.handlePlaces.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
-    this.clearFilter = this.clearFilter.bind(this);
-  }
-  clearFilter(e) {
-    this.setState({
-      ratingClicked: false,
-      minRating: "",
-    });
   }
 
   handlePlaces(places) {
@@ -180,8 +178,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props);
-    navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
         currentPosition: {
           lat: position.coords.latitude,
@@ -256,7 +253,6 @@ class App extends Component {
       }
 
       this.props.ratings.forEach((rating) => {
-        console.log(this.props.minRating);
         if (rating.rating == this.props.minRating) {
           return filterGRestaurants.push(rating);
         }
@@ -291,7 +287,7 @@ class App extends Component {
               <Filter
                 ratingClicked={this.props.ratingClicked}
                 ratingChanged={this.props.ratingChanged}
-                clearFilter={this.clearFilter}
+                clearFilter={this.props.clearFilter}
               />
             </div>
             <div className="row mt-5 ">

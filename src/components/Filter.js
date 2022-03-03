@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import ReactStars from "react-rating-stars-component";
- class Filter extends Component {
+class Filter extends Component {
   render() {
     const { ratingClicked, clearFilter, ratingChanged } = this.props;
     return (
       <div className="buttonRating ml-3 d-flex justify-content-end align-items-center ">
         {ratingClicked === true ? (
-          <span className="material-icons text-danger filter" onClick={clearFilter}>
+          <span
+            className="material-icons text-danger filter"
+            onClick={clearFilter}
+          >
             clear
           </span>
         ) : (

@@ -5,7 +5,7 @@ import { applyMiddleware, createStore,combineReducers } from "redux";
 import { createLogger } from "redux-logger";
 import App from "./App";
 import  thunkMiddleware  from "redux-thunk";
-import { ratingChanged,requestPlaces,clearFilter } from "./reducers/reducers";
+import { ratingChanged,requestPlaces } from "./reducers/reducers";
 import reportWebVitals from "./reportWebVitals";
 //rootReducer - global reducer combined with all reducers
 
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
 
   ratingChanged,
   requestPlaces,
-  clearFilter,
+  
 });
 const store = createStore( rootReducer,applyMiddleware(thunkMiddleware,logger));
 ReactDOM.render(

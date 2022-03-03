@@ -1,5 +1,5 @@
 import {
-  CHANGE_SEARCH_FIELD,
+  
   CHANGE_RATING,
   REQUEST_PLACES_FAILED,
   REQUEST_PLACES_PENDING,
@@ -7,28 +7,17 @@ import {
   CLEAR_FILTER,
 } from "../actions/actionTypes";
 const intialState = {
-  setSearch: "",
+  
   dataLoaded: false,
   error: "",
   ratings: [],
-};
-const intialStateRating = {
   minRating: 0,
   ratingClicked: false,
 };
-export const SearchField = (state = intialState, action = {}) => {
-  switch (action.type) {
-    case CHANGE_SEARCH_FIELD:
-      return {
-        ...state,
-        setSearch: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-export const ratingChanged = (state = intialStateRating, action) => {
-  console.log(action.payload);
+
+
+export const ratingChanged = (state = intialState, action) => {
+ 
   switch (action.type) {
     case CHANGE_RATING:
       return {
@@ -36,6 +25,12 @@ export const ratingChanged = (state = intialStateRating, action) => {
         minRating: action.payload.minRating,
         ratingClicked: action.payload.ratingClicked,
       };
+      case CLEAR_FILTER:
+        return {
+          ...state,
+          minRating: action.payload.minRating,
+          ratingClicked: action.payload.ratingClicked,
+        };
     default:
       return state;
   }
@@ -61,17 +56,6 @@ export const requestPlaces = (state = intialState, action) => {
       };
     default:
       return state;
-  }
-};
-export const clearFilter = (state = intialStateRating, action) => {
-  switch (action.type) {
-    case CLEAR_FILTER:
-      return {
-        ...state,
-        minRating: 0,
-        ratingClicked: false,
-      };
-    default:
-      return intialStateRating;
-  }
-};
+  };
+}
+

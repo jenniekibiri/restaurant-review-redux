@@ -13,6 +13,15 @@ export const setRatingChanged = (minRating, ratingClicked) => ({
     ratingClicked,
   },
 });
+export const setClearFilter = (minRating, ratingClicked) => ({
+  type: CLEAR_FILTER,
+  payload: {
+    minRating,
+    ratingClicked,
+  },
+});
+
+
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 export const setRequestPlaces = () => (dispatch, placeid) => {
   dispatch({ type: REQUEST_PLACES_PENDING });
@@ -33,10 +42,4 @@ export const setRequestPlaces = () => (dispatch, placeid) => {
     )
     .catch((err) => dispatch({ type: REQUEST_PLACES_FAILED, payload: err }));
 };
-const setClearFilter = (minRating, ratingClicked) => ({
-  type: CLEAR_FILTER,
-  payload: {
-    minRating,
-    ratingClicked,
-  },
-});
+
